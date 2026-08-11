@@ -4,19 +4,22 @@ class Solution(object):
         :type strs: List[str]
         :rtype: List[List[str]]
         """
-        output = []
-        processed_indices = set()
-        sorted_strs = []
-        for i in range(len(strs)):
-            sorted_strs.append("".join(sorted(strs[i])))
+        counts = {}
+        def prepare_string(text):
+                numbers = [ord(char) - 96 for char in text.lower() if char.isalpha()]
+                z_numbers = [0 for _ in range(26)]
+                for num in numbers:
+                    z_numbers[num-1] += 1 
+                return "".join([str(num)+"-" for num in z_numbers])
 
-        for i in range(len(strs)):
-            group = [strs[i]]
-            if i in processed_indices:
-                continue
-            for j in range(i+1, len(strs)):
-                if (sorted_strs[i] == sorted_strs[j]) and j not in processed_indices:
-                    group.append(strs[j])
-                    processed_indices.add(j)
-            output.append(group)
+        for ana in strs:
+            _id = prepare_string(ana)
+            if _id not in counts:
+                counts[_id] = [ana]
+            else:
+                counts[_id].append(ana)
+        output = []
+        for value in counts.values():
+            output.append(value)
+        
         return output
