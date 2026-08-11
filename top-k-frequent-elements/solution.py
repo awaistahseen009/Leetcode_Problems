@@ -5,6 +5,7 @@ class Solution(object):
         :type k: int
         :rtype: List[int]
         """
+        import heapq
         counts = {}
         for num in nums:
             if num not in counts:
@@ -12,9 +13,13 @@ class Solution(object):
             else:
                 counts[num] += 1
         
-        sorted_counts = sorted(counts, key = lambda x: counts[x], reverse = True)
+        heap = []
         output = []
-        for idx in sorted_counts[:k]:
-            output.append(idx)
+        for num, count in counts.items():
+            heapq.heappush(heap, (count , num))
+            if len(heap) > k:
+                heapq.heappop(heap)
         
+        for count , num in heap:
+            output.append(num)
         return output
