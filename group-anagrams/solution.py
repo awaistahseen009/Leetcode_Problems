@@ -18,8 +18,6 @@ class Solution(object):
                 counts[_id] = [ana]
             else:
                 counts[_id].append(ana)
-        output = []
-        for value in counts.values():
-            output.append(value)
         
-        return output
+        
+        return list(counts.values())
